@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation 'io.github.openfeign:feign-core:13.3'
     implementation 'io.github.openfeign:feign-gson:13.3'
+    implementation 'com.opencsv:opencsv:5.9'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
