@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group = 'de.baernreuther'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.openfeign:feign-core:13.3'
+    implementation 'io.github.openfeign:feign-gson:13.3'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
