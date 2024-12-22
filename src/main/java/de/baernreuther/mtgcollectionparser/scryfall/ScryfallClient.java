@@ -1,5 +1,6 @@
 package de.baernreuther.mtgcollectionparser.scryfall;
 
+import de.baernreuther.mtgcollectionparser.scryfall.bulkmodel.DataItem;
 import de.baernreuther.mtgcollectionparser.scryfall.client.CardClient;
 import de.baernreuther.mtgcollectionparser.scryfall.client.ScryfallClientErrorDecoder;
 import de.baernreuther.mtgcollectionparser.scryfall.model.Card;
@@ -11,11 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ScryfallClient {
+public class ScryfallClient  {
 
 
-    private CardClient cardClient;
-    private int delayInMs = 100;
+    private final CardClient cardClient;
+    private final int delayInMs = 85;
 
     private Map<String, Card> foundCards = new ConcurrentHashMap<>();
 
@@ -26,6 +27,17 @@ public class ScryfallClient {
                 .target(CardClient.class, "https://api.scryfall.com");
     }
 
+
+    public String fetchBulkUri() throws ScryfallClientException {
+        var response = this.cardClient.getBulkData();
+
+        for(DataItem i : response.getData()) {
+            if("all_cards".equalsIgnoreCase(i.getType())) {
+                return i.getDownload_uri();
+            }
+        }
+        return null;
+    }
 
     public Card fetchCard(ScryfallQuery query) throws ScryfallClientException {
 
@@ -46,7 +58,7 @@ public class ScryfallClient {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("q", query.getQuery());
 
-        SearchResponse result = null;
+        SearchResponse result;
         try {
             result = this.cardClient.search(queryMap);
         } catch (ScryfallClientException exception) {

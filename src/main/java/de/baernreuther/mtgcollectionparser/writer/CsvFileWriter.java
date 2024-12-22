@@ -2,11 +2,12 @@ package de.baernreuther.mtgcollectionparser.writer;
 
 import com.opencsv.CSVWriter;
 import de.baernreuther.mtgcollectionparser.scryfall.model.Card;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.Locale;
 
 public class CsvFileWriter implements IFileWriter {
     @Override
@@ -23,9 +24,9 @@ public class CsvFileWriter implements IFileWriter {
     private String[] convertToArray(Card c) {
         return new String[]{
                 c.getName(),
-                c.getRarity(),
-                c.getSet(),
-                c.getPrices().getEur()
+                StringUtils.capitalize(c.getRarity()),
+                c.getSet().toUpperCase(Locale.ROOT),
+                c.getPrices().getEur() // to make a number out of it.
         };
     }
 }
