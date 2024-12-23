@@ -10,7 +10,12 @@ public class BulkDataWriter {
 
     public String saveBulkdata(String uri) {
 
+
         File f = new File("test.json");
+
+        if (f.exists()) {
+            return f.getAbsolutePath();
+        }
 
         try {
             URL url = new URL(uri);

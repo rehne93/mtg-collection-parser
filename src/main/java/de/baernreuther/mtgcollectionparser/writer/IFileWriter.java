@@ -1,6 +1,6 @@
 package de.baernreuther.mtgcollectionparser.writer;
 
-import de.baernreuther.mtgcollectionparser.scryfall.model.Card;
+import de.baernreuther.mtgcollectionparser.scryfall.model.card.Card;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package de.baernreuther.mtgcollectionparser.scryfall.bulkmodel;
+package de.baernreuther.mtgcollectionparser.scryfall.model.bulk;
 
 public class DataItem{
 	private String contentType;

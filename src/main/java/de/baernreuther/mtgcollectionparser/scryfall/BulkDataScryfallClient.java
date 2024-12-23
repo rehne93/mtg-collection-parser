@@ -1,15 +1,14 @@
 package de.baernreuther.mtgcollectionparser.scryfall;
 
-import de.baernreuther.mtgcollectionparser.scryfall.model.Card;
+import de.baernreuther.mtgcollectionparser.scryfall.model.card.Card;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class LocalScryfallClient implements IScryfallClient {
+public class BulkDataScryfallClient implements IScryfallClient {
 
     private final List<Card> cardDatabase;
 
-    public LocalScryfallClient(List<Card> cardList) {
+    public BulkDataScryfallClient(List<Card> cardList) {
         this.cardDatabase = cardList;
     }
 
@@ -18,6 +17,7 @@ public class LocalScryfallClient implements IScryfallClient {
         var match = this.searchFor(query.getCardName(), query.getSet(), query.getLang());
 
         if (match == null) {
+            System.err.println("Error for " + query.getCardName());
             return null;
         }
         if (!query.isEnglish()) {
@@ -28,11 +28,15 @@ public class LocalScryfallClient implements IScryfallClient {
     }
 
     private Card searchFor(String cardName, String set, String lang) {
+        cardName = cardName.toLowerCase();
         for (Card c : cardDatabase) {
-            if ((cardName.equalsIgnoreCase(c.getPrinted_name()) ||
-                    cardName.equalsIgnoreCase(c.getName()))
+            String nameOfCard = c.getName().toLowerCase();
+            String printedName = c.getPrinted_name() != null? c.getPrinted_name().toLowerCase() : "";
+
+            if ((printedName.contains(cardName) ||
+                    nameOfCard.contains(cardName)
             && set.equalsIgnoreCase(c.getSet())
-            && lang.equalsIgnoreCase(c.getLang())) {
+            && lang.equalsIgnoreCase(c.getLang()))) {
                 return c;
             }
         }

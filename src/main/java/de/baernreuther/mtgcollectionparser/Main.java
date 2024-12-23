@@ -7,11 +7,12 @@ import de.baernreuther.mtgcollectionparser.files.FileReaderException;
 import de.baernreuther.mtgcollectionparser.files.IFileReader;
 import de.baernreuther.mtgcollectionparser.files.model.InputCard;
 import de.baernreuther.mtgcollectionparser.scryfall.*;
-import de.baernreuther.mtgcollectionparser.scryfall.model.Card;
+import de.baernreuther.mtgcollectionparser.scryfall.model.card.Card;
 import de.baernreuther.mtgcollectionparser.writer.CsvFileWriter;
 import de.baernreuther.mtgcollectionparser.writer.FileWriterException;
 import de.baernreuther.mtgcollectionparser.writer.IFileWriter;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,37 +24,40 @@ public class Main {
 
 
     public static void main(String[] args) throws FileReaderException, FileWriterException, FileNotFoundException, ScryfallClientException {
+        String filePath = FILEPATH;
 
-        IFileReader fileReader = new CsvFileReader();
-        BulkDataReader bulkDataReader = new BulkDataReader();
+        if (args.length > 1) {
+            filePath = args[0];
+        }
+
+        ScryfallApiClient bulkClient = new ScryfallApiClient();
+        var uri = bulkClient.fetchBulkUri();
+
         BulkDataWriter bulkDataWriter = new BulkDataWriter();
-        ScryfallClient bulkClient = new ScryfallClient();
-        var uri =  bulkClient.fetchBulkUri();
-
-        System.out.println(uri);
         var file = bulkDataWriter.saveBulkdata(uri);
 
+        BulkDataReader bulkDataReader = new BulkDataReader();
         var result = bulkDataReader.parseCards(file);
-        IScryfallClient scryfallClient = new LocalScryfallClient(result);
 
-        var cards = fileReader.parse(FILEPATH);
+
+        IFileReader fileReader = new CsvFileReader();
+        var cards = fileReader.parse(filePath);
         System.out.print("Size of file:" + cards.size());
 
         List<Card> cardresult = new ArrayList<>();
 
         var lineCount = 0;
+
+        IScryfallClient scryfallClient = new BulkDataScryfallClient(result);
         for (InputCard card : cards) {
             var query = ScryfallQuery.build().setCardName(card.cardName()).setLanguage(card.language()).setSet(card.set());
-            Card cardResponse = null;
-            try {
-                cardResponse = scryfallClient.fetchCard(query);
-            } catch (ScryfallClientException e) {
-                System.err.println("Error while fetching " + query);
-            }
+            Card cardResponse;
+            cardResponse = scryfallClient.fetchCard(query);
+
             if (cardResponse != null) {
                 cardresult.add(cardResponse);
             }
-            System.out.println(lineCount + 1 + "/" + cards.size());
+//            System.out.println(lineCount + 1 + "/" + cards.size());
             lineCount++;
         }
 
@@ -62,5 +66,8 @@ public class Main {
 
         IFileWriter writer = new CsvFileWriter();
         writer.writeFile(cardresult, "result.csv");
+
+        File f = new File("test.json");
+        f.delete();
     }
 }

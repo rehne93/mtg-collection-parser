@@ -1,4 +1,4 @@
-package de.baernreuther.mtgcollectionparser.scryfall.model;
+package de.baernreuther.mtgcollectionparser.scryfall.model.card;
 
 public class Prices {
     private String usdFoil;

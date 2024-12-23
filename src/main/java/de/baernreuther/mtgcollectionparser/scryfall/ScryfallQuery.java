@@ -3,7 +3,6 @@ package de.baernreuther.mtgcollectionparser.scryfall;
 public class ScryfallQuery {
 
     private String lang = "";
-    private String game = "";
     private String cardName = "";
     private String set = "";
 
@@ -14,19 +13,12 @@ public class ScryfallQuery {
         return new ScryfallQuery();
     }
 
-    String getQuery() {
-        return "!" + "\"" + this.cardName + "\"" + " " + this.game + " " + "lang:" + this.lang;
-    }
 
     public ScryfallQuery setCardName(String cardName) {
         this.cardName = cardName;
         return this;
     }
 
-    public ScryfallQuery setGamePaper() {
-        this.game = "(game:paper)";
-        return this;
-    }
 
     public ScryfallQuery setLanguage(String languageShorthand) {
         this.lang = languageShorthand;
@@ -41,9 +33,6 @@ public class ScryfallQuery {
         return lang;
     }
 
-    public String getGame() {
-        return game;
-    }
 
     public String getCardName() {
         return cardName;
@@ -57,10 +46,4 @@ public class ScryfallQuery {
         this.set = set;
         return this;
     }
-
-    @Override
-    public String toString() {
-        return this.getQuery();
-    }
-
 }

@@ -1,8 +1,8 @@
 package de.baernreuther.mtgcollectionparser.scryfall.client;
 
-import de.baernreuther.mtgcollectionparser.scryfall.bulkmodel.BulkInfoResponse;
+import de.baernreuther.mtgcollectionparser.scryfall.model.bulk.BulkInfoResponse;
 import de.baernreuther.mtgcollectionparser.scryfall.ScryfallClientException;
-import de.baernreuther.mtgcollectionparser.scryfall.model.SearchResponse;
+import de.baernreuther.mtgcollectionparser.scryfall.model.card.SearchResponse;
 import feign.QueryMap;
 import feign.RequestLine;
 

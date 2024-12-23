@@ -1,6 +1,6 @@
 package de.baernreuther.mtgcollectionparser.scryfall;
 
-import de.baernreuther.mtgcollectionparser.scryfall.model.Card;
+import de.baernreuther.mtgcollectionparser.scryfall.model.card.Card;
 
 public interface IScryfallClient {
 
