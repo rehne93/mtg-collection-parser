@@ -12,7 +12,7 @@ import java.util.Locale;
 public class CsvFileWriter implements IFileWriter {
     @Override
     public void writeFile(List<Card> cards, String filePath) throws FileWriterException {
-        try (CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath))) {
+        try (CSVWriter csvWriter = new CSVWriter(new FileWriter(filePath + ".csv"))) {
             for (Card c : cards) {
                 csvWriter.writeNext(this.convertToArray(c));
             }

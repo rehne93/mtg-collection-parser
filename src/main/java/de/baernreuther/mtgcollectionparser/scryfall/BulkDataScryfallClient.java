@@ -28,15 +28,15 @@ public class BulkDataScryfallClient implements IScryfallClient {
     }
 
     private Card searchFor(String cardName, String set, String lang) {
-        cardName = cardName.toLowerCase();
+        cardName = cardName.toLowerCase().trim();
         for (Card c : cardDatabase) {
             String nameOfCard = c.getName().toLowerCase();
-            String printedName = c.getPrinted_name() != null? c.getPrinted_name().toLowerCase() : "";
+            String printedName = c.getPrinted_name() != null ? c.getPrinted_name().toLowerCase() : "";
 
             if ((printedName.contains(cardName) ||
                     nameOfCard.contains(cardName)
-            && set.equalsIgnoreCase(c.getSet())
-            && lang.equalsIgnoreCase(c.getLang()))) {
+                            && set.equalsIgnoreCase(c.getSet())
+                            && lang.equalsIgnoreCase(c.getLang()))) {
                 return c;
             }
         }

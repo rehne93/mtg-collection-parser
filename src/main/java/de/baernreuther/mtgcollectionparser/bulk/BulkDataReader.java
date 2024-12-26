@@ -13,10 +13,9 @@ import java.util.List;
 
 public class BulkDataReader {
 
-    private List<String> languagesToUse = List.of("de", "en");
-
     private static final Type REVIEW_TYPE = new TypeToken<List<Card>>() {
     }.getType();
+    private List<String> languagesToUse = List.of("de", "en");
 
     public List<Card> parseCards(String fileName) throws FileNotFoundException {
         List<Card> allCards;

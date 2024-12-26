@@ -13,13 +13,6 @@ public class ScryfallQuery {
         return new ScryfallQuery();
     }
 
-
-    public ScryfallQuery setCardName(String cardName) {
-        this.cardName = cardName;
-        return this;
-    }
-
-
     public ScryfallQuery setLanguage(String languageShorthand) {
         this.lang = languageShorthand;
         return this;
@@ -33,9 +26,13 @@ public class ScryfallQuery {
         return lang;
     }
 
-
     public String getCardName() {
         return cardName;
+    }
+
+    public ScryfallQuery setCardName(String cardName) {
+        this.cardName = cardName;
+        return this;
     }
 
     public String getSet() {

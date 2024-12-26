@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Tabelle mit Velocity</title>
+    <!-- Bootstrap für responsives Design -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Optional: Einfache Anpassungen für mobile Darstellung */
+        table {
+            width: 100%;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Sammlung</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>Name</th>
+                        <th>Set</th>
+                        <th>Preis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    #foreach($card in $cards)
+                        <tr>
+                            <td><img src="$card.getImageUris().getSmall()"> </td>
+                            <td>$card.name</td>
+                            <td>$card.set </td>
+                            <td>$card.getPrices().getEur()</td>
+                        </tr>
+                    #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Optional: Bootstrap JS für interaktive Features -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
