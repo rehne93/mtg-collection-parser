@@ -14,16 +14,22 @@ public class BulkDataScryfallClient implements IScryfallClient {
 
     @Override
     public Card fetchCard(ScryfallQuery query) throws ScryfallClientException {
-        var match = this.searchFor(query.getCardName(), query.getSet(), query.getLang());
+        var firstMatch = this.searchFor(query.getCardName(), query.getSet(), query.getLang());
 
-        if (match == null) {
+        if (firstMatch == null) {
             System.err.println("Error for " + query.getCardName());
             return null;
         }
         if (!query.isEnglish()) {
-            match = searchFor(match.getName(), query.getSet(), "en");
+            var englishMatch = searchFor(firstMatch.getName(), query.getSet(), "en");
+            if (englishMatch == null) {
+                System.err.println("Error for english " + query.getCardName());
+                return null;
+            }
+            englishMatch.setPrinted_name(query.getCardName());
+            return englishMatch;
         }
-        return match;
+        return firstMatch;
 
     }
 

@@ -45,17 +45,22 @@ public class GenerateReportCommand implements Callable<Integer> {
         ScryfallApiClient bulkClient = new ScryfallApiClient();
         var bulkUri = bulkClient.fetchBulkUri();
 
+        System.out.println("Starting to download bulkdata");
         BulkDataWriter bulkDataWriter = new BulkDataWriter();
         var bulkDataFile = bulkDataWriter.saveBulkdata(bulkUri);
 
+        System.out.println("Finished bulkdata download");
         BulkDataReader bulkDataReader = new BulkDataReader();
         var parsedCards = bulkDataReader.parseCards(bulkDataFile);
 
+        System.out.println("Finished parsing bulkdata");
         IFileReader fileReader = new CsvFileReader();
         var cards = fileReader.parse(this.inputPath);
 
+        System.out.println("Read " + cards.size() + " cards");
         List<Card> mappedCards = new ArrayList<>();
 
+        System.out.println("Mapping cards");
         IScryfallClient scryfallClient = new BulkDataScryfallClient(parsedCards);
         for (InputCard card : cards) {
             var query = ScryfallQuery.build().setCardName(card.cardName()).setLanguage(card.language()).setSet(card.set());

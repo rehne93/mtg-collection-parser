@@ -25,6 +25,7 @@
                     <tr>
                         <th> </th>
                         <th>Name</th>
+                        <th>German Name </th>
                         <th>Set</th>
                         <th>Preis</th>
                     </tr>
@@ -32,10 +33,11 @@
                 <tbody>
                     #foreach($card in $cards)
                         <tr>
-                            <td><img src="$card.getImageUris().getSmall()"> </td>
+                            <td><img src="$card.image_uris.small"> </td>
                             <td>$card.name</td>
+                            <td>$card.printed_name</td>
                             <td>$card.set </td>
-                            <td>$card.getPrices().getEur()</td>
+                            <td>$card.getPrices().getEur() €</td>
                         </tr>
                     #end
                 </tbody>

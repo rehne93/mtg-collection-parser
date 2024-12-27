@@ -58,7 +58,7 @@ public class Card {
     private String set;
     private boolean reprint;
     private boolean fullArt;
-    private ImageUris imageUris;
+    private ImageUris image_uris;
     private boolean nonfoil;
     private String cardBackId;
     private String uri;
@@ -511,12 +511,12 @@ public class Card {
         this.fullArt = fullArt;
     }
 
-    public ImageUris getImageUris() {
-        return imageUris;
+    public ImageUris getImage_uris() {
+        return image_uris;
     }
 
-    public void setImageUris(ImageUris imageUris) {
-        this.imageUris = imageUris;
+    public void setImage_uris(ImageUris image_uris) {
+        this.image_uris = image_uris;
     }
 
     public boolean isNonfoil() {
