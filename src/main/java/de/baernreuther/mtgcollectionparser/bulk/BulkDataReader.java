@@ -28,6 +28,9 @@ public class BulkDataReader {
         List<Card> filteredCards = new ArrayList<>();
 
         for (Card c : allCards) {
+            if (!c.getGames().contains("paper")) {
+                continue;
+            }
             if (languagesToUse.contains(c.getLang())) {
                 filteredCards.add(c);
             }

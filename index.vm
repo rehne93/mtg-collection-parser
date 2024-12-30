@@ -15,17 +15,41 @@
             overflow-x: auto;
         }
     </style>
+        <script>
+            // Funktion, die die Tabelle nach dem Namen filtert
+            function searchTable() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById('searchInput');
+                filter = input.value.toUpperCase();
+                table = document.getElementById('cardTable');
+                tr = table.getElementsByTagName('tr');
+
+                // Durch die Tabellenzeilen iterieren (beginnend mit 1, um den Header zu überspringen)
+                for (i = 1; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName('td')[1]; // Die zweite Spalte (Name)
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = ""; // Zeile anzeigen
+                        } else {
+                            tr[i].style.display = "none"; // Zeile ausblenden
+                        }
+                    }
+                }
+            }
+        </script>
 </head>
 <body>
     <div class="container mt-5">
         <h2>Sammlung</h2>
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Nach Name suchen..." onkeyup="searchTable()">
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="cardTable">
                 <thead>
                     <tr>
                         <th> </th>
                         <th>Name</th>
-                        <th>German Name </th>
+                        <th>German Name</th>
                         <th>Set</th>
                         <th>Preis</th>
                     </tr>
@@ -35,9 +59,19 @@
                         <tr>
                             <td><img src="$card.image_uris.small"> </td>
                             <td>$card.name</td>
-                            <td>$card.printed_name</td>
-                            <td>$card.set </td>
-                            <td>$card.getPrices().getEur() €</td>
+                            <td>
+                            #if($card.getPrinted_Name())
+                                $card.printed_name
+                            #end
+                            </td>
+                            <td>$card.set.toUpperCase()</td>
+                            <td>
+                            #if($card.getPrices() && $card.getPrices().getEur())
+                                $card.getPrices().getEur() €
+                            #else
+                                -
+                            #end
+                            </td>
                         </tr>
                     #end
                 </tbody>
@@ -49,5 +83,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

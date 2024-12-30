@@ -1,6 +1,7 @@
 package de.baernreuther.mtgcollectionparser.scryfall;
 
 import de.baernreuther.mtgcollectionparser.scryfall.model.card.Card;
+import de.baernreuther.mtgcollectionparser.scryfall.model.card.Prices;
 
 import java.util.List;
 
@@ -18,13 +19,13 @@ public class BulkDataScryfallClient implements IScryfallClient {
 
         if (firstMatch == null) {
             System.err.println("Error for " + query.getCardName());
-            return null;
+            return this.buildDummyCard(query);
         }
         if (!query.isEnglish()) {
             var englishMatch = searchFor(firstMatch.getName(), query.getSet(), "en");
             if (englishMatch == null) {
                 System.err.println("Error for english " + query.getCardName());
-                return null;
+                return firstMatch;
             }
             englishMatch.setPrinted_name(query.getCardName());
             return englishMatch;
@@ -48,5 +49,17 @@ public class BulkDataScryfallClient implements IScryfallClient {
         }
 
         return null;
+    }
+
+    private Card buildDummyCard(ScryfallQuery scryfallQuery) {
+        var card = new Card();
+        if (!"EN".equalsIgnoreCase(scryfallQuery.getLang())) {
+            card.setPrinted_name(scryfallQuery.getCardName());
+        }
+        card.setSet(scryfallQuery.getSet());
+        card.setName(scryfallQuery.getCardName());
+        card.setLang(scryfallQuery.getLang());
+        card.setPrices(new Prices());
+        return card;
     }
 }
