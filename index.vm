@@ -7,37 +7,68 @@
     <!-- Bootstrap für responsives Design -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Optional: Einfache Anpassungen für mobile Darstellung */
         table {
             width: 100%;
         }
         .table-responsive {
             overflow-x: auto;
         }
+        th {
+            cursor: pointer;
+        }
     </style>
-        <script>
-            // Funktion, die die Tabelle nach dem Namen filtert
-            function searchTable() {
-                var input, filter, table, tr, td, i, txtValue;
-                input = document.getElementById('searchInput');
-                filter = input.value.toUpperCase();
-                table = document.getElementById('cardTable');
-                tr = table.getElementsByTagName('tr');
+    <script>
+        // Optimierte Suchfunktion
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('cardTable');
+            const rows = table.querySelectorAll('tbody tr');
 
-                // Durch die Tabellenzeilen iterieren (beginnend mit 1, um den Header zu überspringen)
-                for (i = 1; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName('td')[1]; // Die zweite Spalte (Name)
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = ""; // Zeile anzeigen
-                        } else {
-                            tr[i].style.display = "none"; // Zeile ausblenden
-                        }
-                    }
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                const match = Array.from(cells).some(cell =>
+                    cell.textContent.toUpperCase().includes(filter)
+                );
+                row.style.display = match ? "" : "none";
+            });
+        }
+
+        // Sortierfunktion: Sortiert eine Spalte effizient
+        function sortTable(columnIndex, isNumeric) {
+            const table = document.getElementById('cardTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.rows); // Zeilen als Array holen
+
+            // Sortierung durchführen
+            const sortedRows = rows.sort((a, b) => {
+                const cellA = a.cells[columnIndex].textContent.trim();
+                const cellB = b.cells[columnIndex].textContent.trim();
+
+                if (isNumeric) {
+                    // Numerische Sortierung
+                    const numA = parseFloat(cellA) || 0;
+                    const numB = parseFloat(cellB) || 0;
+                    return numA - numB;
+                } else {
+                    // Alphabetische Sortierung
+                    return cellA.localeCompare(cellB, 'de', { sensitivity: 'base' });
                 }
+            });
+
+            // Sortierrichtung umkehren, wenn bereits sortiert
+            const currentOrder = table.dataset.sortOrder || 'asc';
+            if (currentOrder === 'asc') {
+                sortedRows.reverse();
+                table.dataset.sortOrder = 'desc';
+            } else {
+                table.dataset.sortOrder = 'asc';
             }
-        </script>
+
+            // Neu sortierte Zeilen einfügen
+            tbody.append(...sortedRows);
+        }
+    </script>
 </head>
 <body>
     <div class="container mt-5">
@@ -47,17 +78,17 @@
             <table class="table table-bordered" id="cardTable">
                 <thead>
                     <tr>
-                        <th> </th>
-                        <th>Name</th>
-                        <th>German Name</th>
-                        <th>Set</th>
-                        <th>Preis</th>
+                        <th></th>
+                        <th onclick="sortTable(1, false)">Name</th>
+                        <th onclick="sortTable(2, false)">German Name</th>
+                        <th onclick="sortTable(3, false)">Set</th>
+                        <th onclick="sortTable(4, true)">Preis</th>
                     </tr>
                 </thead>
                 <tbody>
                     #foreach($card in $cards)
                         <tr>
-                            <td> <img src="$card.image_uris.small"> </td>
+                            <td><img src="$card.image_uris.small"></td>
                             <td>$card.name</td>
                             <td>
                                 #if($card.getPrinted_Name())
