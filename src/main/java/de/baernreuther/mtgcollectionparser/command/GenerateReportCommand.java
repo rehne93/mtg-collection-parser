@@ -11,6 +11,7 @@ import de.baernreuther.mtgcollectionparser.scryfall.IScryfallClient;
 import de.baernreuther.mtgcollectionparser.scryfall.ScryfallApiClient;
 import de.baernreuther.mtgcollectionparser.scryfall.ScryfallQuery;
 import de.baernreuther.mtgcollectionparser.scryfall.model.card.Card;
+import de.baernreuther.mtgcollectionparser.sort.CardSorter;
 import de.baernreuther.mtgcollectionparser.writer.CsvFileWriter;
 import de.baernreuther.mtgcollectionparser.writer.HtmlFileWriter;
 import de.baernreuther.mtgcollectionparser.writer.IFileWriter;
@@ -74,21 +75,8 @@ public class GenerateReportCommand implements Callable<Integer> {
             }
         }
 
-
-        if (this.orderBy.equalsIgnoreCase("name")) {
-            // Liste nach Namen ordnen
-            mappedCards.sort(Comparator.comparing(Card::getName));
-        }
-
-        if (this.orderBy.equalsIgnoreCase("set")) {
-            mappedCards.sort(Comparator.comparing(Card::getSet));
-        }
-
-        if (this.orderBy.equalsIgnoreCase("price")) {
-            mappedCards.sort((c1, c2) -> {
-                return Double.compare(c2.getPrices().getEur(), c1.getPrices().getEur());
-            });
-        }
+        // Order cards
+        mappedCards = new CardSorter().sortCards(this.orderBy, mappedCards);
 
         // Output
         if (this.format.toLowerCase(Locale.ROOT).contains("html")) {

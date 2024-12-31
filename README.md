@@ -1,7 +1,12 @@
-# mtg-collection-parser
-Parses a csv for an mtg collection and extends the information using the scryfall api
+# MTG Collection Parser
 
-## TODOS
-- searchfunction in js
-- cleanup command
-- accept different input formats like deckstats
+The goal of this application is to generate a html file from your mtg-collection. 
+It uses a simple csv format which will then be used to generate a viewable collection in your browser.
+You can even host it on your own server.
+
+## How-To
+TODO
+
+## Input-Format
+TODO
+
