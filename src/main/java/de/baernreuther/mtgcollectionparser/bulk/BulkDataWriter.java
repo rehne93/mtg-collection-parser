@@ -3,9 +3,7 @@ package de.baernreuther.mtgcollectionparser.bulk;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.net.URI;
 import java.net.URL;
-import java.nio.file.Paths;
 
 public class BulkDataWriter {
 
