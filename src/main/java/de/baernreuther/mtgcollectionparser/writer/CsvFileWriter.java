@@ -22,13 +22,13 @@ public class CsvFileWriter implements IFileWriter {
     }
 
     private String[] convertToArray(Card c) {
-        String price = c.getPrices().getEur() != null ? c.getPrices().getEur().replace(".", ",") : "";
+        double price = c.getPrices().getEur();
 
         return new String[]{
                 c.getName(),
                 StringUtils.capitalize(c.getRarity()),
                 c.getSet().toUpperCase(Locale.ROOT),
-                price
+                String.valueOf(price).replace(".", ",")
         };
     }
 }

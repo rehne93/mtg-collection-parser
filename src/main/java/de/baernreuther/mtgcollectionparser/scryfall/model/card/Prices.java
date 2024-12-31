@@ -20,8 +20,11 @@ public class Prices {
         return tix;
     }
 
-    public String getEur() {
-        return eur;
+    public double getEur() {
+        if (eur == null) {
+            return 0;
+        }
+        return Double.parseDouble(eur);
     }
 
     public String getUsd() {

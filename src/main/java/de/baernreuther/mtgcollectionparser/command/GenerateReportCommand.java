@@ -39,6 +39,9 @@ public class GenerateReportCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"-d", "--delete"}, description = "Delete scryfall bulk afterwards")
     private boolean deleteScryfall = false;
 
+    @CommandLine.Option(names = {"-s", "--sort"}, description = "name,price,set")
+    private String orderBy = "name";
+
     @Override
     public Integer call() throws Exception {
 
@@ -71,8 +74,21 @@ public class GenerateReportCommand implements Callable<Integer> {
             }
         }
 
-        // Liste nach Namen ordnen
-        mappedCards.sort(Comparator.comparing(Card::getName));
+
+        if (this.orderBy.equalsIgnoreCase("name")) {
+            // Liste nach Namen ordnen
+            mappedCards.sort(Comparator.comparing(Card::getName));
+        }
+
+        if (this.orderBy.equalsIgnoreCase("set")) {
+            mappedCards.sort(Comparator.comparing(Card::getSet));
+        }
+
+        if (this.orderBy.equalsIgnoreCase("price")) {
+            mappedCards.sort((c1, c2) -> {
+                return Double.compare(c2.getPrices().getEur(), c1.getPrices().getEur());
+            });
+        }
 
         // Output
         if (this.format.toLowerCase(Locale.ROOT).contains("html")) {

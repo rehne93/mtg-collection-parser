@@ -7,7 +7,11 @@ import org.apache.velocity.app.VelocityEngine;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 public class HtmlFileWriter implements IFileWriter {
@@ -24,12 +28,13 @@ public class HtmlFileWriter implements IFileWriter {
 
         Template template = velocityEngine.getTemplate(INPUT_TEMPLATE);
 
+        Writer writer = new StringWriter();
+        template.merge(velocityContext, writer);
+
         try {
-            Writer writer = new FileWriter(filePath + ".html");
-            template.merge(velocityContext, writer);
+            Files.writeString(Path.of(filePath + ".html"), writer.toString());
         } catch (IOException e) {
             throw new FileWriterException(e.getMessage(), e);
         }
-
     }
 }

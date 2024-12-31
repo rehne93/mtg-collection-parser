@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Tabelle mit Velocity</title>
+    <title>My MTG Collection</title>
     <!-- Bootstrap für responsives Design -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -57,20 +57,20 @@
                 <tbody>
                     #foreach($card in $cards)
                         <tr>
-                            <td><img src="$card.image_uris.small"> </td>
+                            <td> <img src="$card.image_uris.small"> </td>
                             <td>$card.name</td>
                             <td>
-                            #if($card.getPrinted_Name())
-                                $card.printed_name
-                            #end
+                                #if($card.getPrinted_Name())
+                                    $card.printed_name
+                                #end
                             </td>
                             <td>$card.set.toUpperCase()</td>
                             <td>
-                            #if($card.getPrices() && $card.getPrices().getEur())
-                                $card.getPrices().getEur() €
-                            #else
-                                -
-                            #end
+                                #if($card.getPrices() && $card.getPrices().getEur())
+                                    $card.getPrices().getEur()
+                                #else
+                                    -
+                                #end
                             </td>
                         </tr>
                     #end
@@ -78,11 +78,9 @@
             </table>
         </div>
     </div>
-
     <!-- Optional: Bootstrap JS für interaktive Features -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>
